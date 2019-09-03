@@ -28,12 +28,54 @@ namespace OatsUtil
         /// <returns>The transform of the child or null if it doesn't exist</returns>
         public static Transform RequireChildGameObject(this Component component, string childName)
         {
+            if (childName == null)
+            {
+                throw new System.ArgumentNullException("childName", "childName cannot be null");
+            }
+
             Transform childTransform = component.transform.Find(childName);
             if (childTransform == null)
             {
-                Debug.LogException(new MissingGameObjectException(component.name + " requires a child GameObject called \"" + childName + "\""), component);
+                Debug.LogException(new MissingGameObjectException(component.name + " requires a child GameObject called " + childName.Quote()), component);
             }
             return childTransform;
+        }
+
+        /// <summary>
+        /// Checks for existance of a descendant transform with specified name and returns it
+        /// </summary>
+        /// <param name="component">The component that requires the descendant</param>
+        /// <param name="descendantName">The name of the descendant to check for</param>
+        /// <returns>The transform of the descendant or null if it doesn't exist</returns>
+        public static Transform RequireDescendantGameObject(this Component component, string descendantName)
+        {
+            if (descendantName == null)
+            {
+                throw new System.ArgumentNullException("descendantName", "descendantName cannot be null");
+            }
+
+            Transform foundChild = FindChildRecursive(component.transform, descendantName);
+            if (foundChild == null)
+            {
+                Debug.LogException(new MissingGameObjectException(component.name + " requires a descendant GameObject called " + descendantName.Quote()), component);
+            }
+            return foundChild;
+        }
+
+        private static Transform FindChildRecursive(Transform parent, string childName)
+        {
+            foreach (Transform child in parent)
+            {
+                if (child.name.Equals(childName))
+                {
+                    return child;
+                }
+                else
+                {
+                    return FindChildRecursive(child, childName);
+                }
+            }
+            return null;
         }
     }
 }

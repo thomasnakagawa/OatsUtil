@@ -15,6 +15,10 @@ namespace OatsUtil
         /// <returns></returns>
         public static T Random<T>(this IList<T> list, System.Random random)
         {
+            if (random == null)
+            {
+                throw new System.ArgumentException("random", "random cannot be null");
+            }
             return list[random.Next(0, list.Count)];
         }
 
@@ -38,6 +42,10 @@ namespace OatsUtil
         /// <returns></returns>
         public static T Random<T>(this T[] array, System.Random random)
         {
+            if (random == null)
+            {
+                throw new System.ArgumentException("random", "random cannot be null");
+            }
             return array[random.Next(0, array.Length)];
         }
 
@@ -60,6 +68,10 @@ namespace OatsUtil
         /// <param name="random">The Random object to use to generate randomness</param>
         public static void Shuffle<T>(this IList<T> list, System.Random random)
         {
+            if (random == null)
+            {
+                throw new System.ArgumentException("random", "random cannot be null");
+            }
             int n = list.Count;
             while (n > 1)
             {

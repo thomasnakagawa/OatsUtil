@@ -67,4 +67,53 @@ public class ComponentExtensionTests
         LogAssert.Expect(LogType.Exception, ANY_STRING);
         Assert.IsNull(returnedTransform);
     }
+
+    [Test(Description = "RequireDescendant returns descendant when descendant is child")]
+    public void RequireDescendant_DescendantIsChild()
+    {
+        GameObject objectUnderTest = new GameObject("test obj");
+        GameObject childObject = new GameObject("childobj");
+        childObject.transform.parent = objectUnderTest.transform;
+
+        Transform returnedTransform = objectUnderTest.transform.RequireDescendantGameObject("childobj");
+        Assert.AreSame(childObject.transform, returnedTransform);
+    }
+
+    [Test(Description = "RequireDescendant returns descendant when descendant is grandchild")]
+    public void RequireDescendant_DescendantIsGrandChild()
+    {
+        GameObject objectUnderTest = new GameObject("test obj");
+        GameObject childObject = new GameObject("childobj");
+        childObject.transform.parent = objectUnderTest.transform;
+        GameObject grandChildObject = new GameObject("grandchildobj");
+        grandChildObject.transform.parent = childObject.transform;
+
+        Transform returnedTransform = objectUnderTest.transform.RequireDescendantGameObject("grandchildobj");
+        Assert.AreSame(grandChildObject.transform, returnedTransform);
+    }
+
+    [Test(Description = "RequireDescendant returns null when object has child and grandchild but named object doesnt exist")]
+    public void RequireDescendant_DescendantDoesntExist()
+    {
+        GameObject objectUnderTest = new GameObject("test obj");
+        GameObject childObject = new GameObject("childobj");
+        childObject.transform.parent = objectUnderTest.transform;
+        GameObject grandChildObject = new GameObject("grandchildobj");
+        grandChildObject.transform.parent = childObject.transform;
+
+        Transform returnedTransform = objectUnderTest.transform.RequireDescendantGameObject("non-existant");
+        LogAssert.Expect(LogType.Exception, ANY_STRING);
+        Assert.IsNull(returnedTransform);
+    }
+
+    [Test(Description = "RequireDescendant returns null when named object is a sibling")]
+    public void RequireDescendant_sibling()
+    {
+        GameObject objectUnderTest = new GameObject("test obj");
+        GameObject siblingObject = new GameObject("targetObj");
+
+        Transform returnedTransform = objectUnderTest.transform.RequireDescendantGameObject("targetObj");
+        LogAssert.Expect(LogType.Exception, ANY_STRING);
+        Assert.IsNull(returnedTransform);
+    }
 }
