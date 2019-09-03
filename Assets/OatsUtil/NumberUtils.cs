@@ -43,16 +43,7 @@
         /// <returns></returns>
         public static int WrapRange(int min, int max, int value)
         {
-            // TODO!!!!! this isnt going to work well in many cases
-            if (value >= max)
-            {
-                return value % max;
-            }
-            if (value < min)
-            {
-                return max - (min - value);
-            }
-            return value;
+            return (((value - min) % (max - min)) + (max - min)) % (max - min) + min;
         }
 
         /// <summary>
