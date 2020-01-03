@@ -92,7 +92,7 @@ float throttleForce = NumberUtils.MapRange(
 ```
 
 ## Setup
-Import the package file into Unity. To use the utilities, only the OatsUtil folder is required, the Editor folder contains unit tests and is optional.
+Download the latest release from the [Releases](https://github.com/thomasnakagawa/OatsUtil/releases) page. Import the package file into Unity. To use the utilities, only the OatsUtil folder is required, the Editor folder contains unit tests and is optional.
 
 Add `using OatsUtil;` at the top of any of your scripts to use the methods and classes in this asset package.
 
