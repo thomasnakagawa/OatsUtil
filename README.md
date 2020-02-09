@@ -4,8 +4,10 @@ OatsUtil is a Unity package with a collection of different utilities for Unity s
 
 Contains:
 * <b>ComponentExtensions</b> class which gives Unity components methods for getting references to components and GameObjects with null checks and exception logging.
+* <b>InBetweening</b> classes to easily make tweening coroutines
 * <b>CollectionExtensions</b> class which gives Arrays and Lists methods for getting random elements and shuffling their elements.
 * <b>StringExtensions</b> class which gives strings methods for formatting, including pluralizing, adding quotes and adding formatting tags.
+* <b>IEnumeratorExtensions</b> class which gives IEnumerators the .Then() method, allowing Enumerators to be strung together in a sequence.
 * <b>NumberUtils</b> class with methods for various numerical operations like mapping a value from one range to another, wrapping a value in a range, and checking if a value is within a range.
 * <b>SceneUtils</b> class with methods for accessing GameObjects in the current scene.
 * <b>MissingGameObjectException</b> an exception type for when a Unity GameObject is missing
@@ -58,6 +60,56 @@ this.RequireChildGameObject("Door").RequireComponent<HingeJoint>();
 ```C#
 player1 = SceneUtils.FindComponentInScene<PlayerController>("Player1");
 player2 = SceneUtils.FindComponentInScene<PlayerController>("Player2");
+```
+
+### Using InBetweening to tween values over time
+```C#
+var MovementTween = new InBetween<Vector3>()
+    .LerpWith(Vector3.Lerp)                             // lerp function for the type of value being tweened 
+    .From(transform.position)                           // starting value of tween
+    .To(transform.position + Vector3.right)             // ending value of tween
+    .For(2f)                                            // how long in seconds the tween is
+    .Curve(InBetweenCurves.EaseInAndOut)                // specify an easing funcion. Either a float => float function or AnimationCurve
+    .OnFrame(vector => transform.position = vector);    // function that runs on each from of the tween
+
+StartCoroutine(MovementTween.ToEnumerator());
+```
+Above code moves the object one unit to the right over 2 seconds with an ease-in-and-out easing function.
+
+You can also make some of the variables editable in the inspector by using a InBetweenConfig object:
+```C#
+[SerializeField] private InBetweenConfig MovementTweenConfig;
+
+public void Move()
+{
+    var MovementTween = new InBetween<Vector3>()
+        .LerpWith(Vector3.Lerp)
+        .From(transform.position)
+        .To(transform.position + Vector3.right)
+        .OnFrame(vector => transform.position = vector)
+        .WithConfig(MovementTweenConfig);               // pass config object to specify time, curve and steps
+
+    StartCoroutine(MovementTween.ToEnumerator());
+}
+```
+### Making a sequence of IEnumerators to run in a coroutine
+This code connects four IEnumerators so that when they run in a coroutine they will run one after the other in sequence.
+```C#
+var AttackSequence = LookAtPlayer()
+    .Then(Shoot())
+    .Then(ResetPosition())
+    .Then(Reload());
+
+StartCoroutine(AttackSequence);
+```
+
+You can also pass in an Action to run after a coroutine completes
+```C#
+StartCoroutine(AttackSequence
+    .Then(() => {
+        Debug.Log("Done attack sequence");
+    })
+);
 ```
 
 ### Shuffling an array or list
