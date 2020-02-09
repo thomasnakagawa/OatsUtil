@@ -72,7 +72,11 @@ namespace OatsUtil
                 }
                 else
                 {
-                    return FindChildRecursive(child, childName);
+                    var nextResult = FindChildRecursive(child, childName);
+                    if (nextResult != null)
+                    {
+                        return nextResult;
+                    }
                 }
             }
             return null;
