@@ -51,7 +51,7 @@ Transform pivotPoint = this.RequireChildGameObject("pivot");
 The RequireChildGameObject() method will check for the child and log an exception if it doesn't exist.
 
 ### Getting a component in a child object
-Just do:
+Use both RequireChildGameObject and RequireComponent:
 ```C#
 this.RequireChildGameObject("Door").RequireComponent<HingeJoint>();
 ```
@@ -70,7 +70,7 @@ var MovementTween = new InBetween<Vector3>()
     .To(transform.position + Vector3.right)             // ending value of tween
     .For(2f)                                            // how long in seconds the tween is
     .Curve(InBetweenCurves.EaseInAndOut)                // specify an easing funcion. Either a float => float function or AnimationCurve
-    .OnFrame(vector => transform.position = vector);    // function that runs on each from of the tween
+    .OnFrame(vector => transform.position = vector);    // function that runs on each frame of the tween
 
 StartCoroutine(MovementTween.ToEnumerator());
 ```
