@@ -23,7 +23,7 @@ jobs:
     - name: Build asset package
       uses: pCYSl5EDgo/create-unitypackage@master
       with:
-        package-path: 'packageBuild/${{ ASSET_NAME }}.unitypackage'
+        package-path: packageBuild/${{ echo $ASSET_NAME }}.unitypackage
         include-files: metaList
 
     - name: Upload artifact
