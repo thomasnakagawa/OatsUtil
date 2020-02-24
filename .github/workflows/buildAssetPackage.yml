@@ -16,7 +16,7 @@ jobs:
     - name: Make metalist
       run: |
         echo "$ASSET_DIR.meta" > metaList
-        find ./ASSET_DIR/ -name \*.meta >> metaList
+        find ./$ASSET_DIR/ -name \*.meta >> metaList
 
     - run: mkdir packageBuild
 
