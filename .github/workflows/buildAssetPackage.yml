@@ -9,6 +9,7 @@ on:
     branches: [master]
     paths:
         - '${{ env.Assets/OatsUtil }}/**'
+        - '.github/workflows/buildAssetPackage.yml'
 jobs:
   echo:
     runs-on: ubuntu-latest
