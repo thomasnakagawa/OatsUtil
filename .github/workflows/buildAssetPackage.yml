@@ -1,4 +1,4 @@
-name: Create Unity Package
+name: 📦Create Unity Package
 
 env:
   ASSET_DIR: Assets/OatsUtil
@@ -8,7 +8,7 @@ on:
   push:
     branches: [master]
     paths:
-        - ${{ env.ASSET_DIR }}/**
+        - 'Assets/OatsUtil/**'
         - '.github/workflows/buildAssetPackage.yml'
 jobs:
   echo:
