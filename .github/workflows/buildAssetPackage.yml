@@ -8,7 +8,7 @@ on:
   push:
     branches: [master]
     paths:
-        - '${{ env.Assets/OatsUtil }}/**'
+        - '${{ env.ASSET_DIR }}/**'
         - '.github/workflows/buildAssetPackage.yml'
 jobs:
   echo:
