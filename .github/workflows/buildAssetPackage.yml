@@ -20,4 +20,4 @@ jobs:
     - uses: actions/upload-artifact@master
       with:
         path: a
-        name: oatsutil_package
+        name: oatsutil_package.unitypackage
