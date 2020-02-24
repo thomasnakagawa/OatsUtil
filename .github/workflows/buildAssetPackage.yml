@@ -1,11 +1,14 @@
 name: Create Unity Package
 
-on: push
-
 env:
   ASSET_DIR: Assets/OatsUtil
   ASSET_NAME: OatsUtil  
 
+on:
+  push:
+    branches: [master]
+    paths:
+        - '${{ env.Assets/OatsUtil }}/**'
 jobs:
   echo:
     runs-on: ubuntu-latest
