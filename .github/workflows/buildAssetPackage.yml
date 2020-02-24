@@ -18,7 +18,7 @@ jobs:
         echo "$ASSET_DIR.meta" > metaList
         find ./$ASSET_DIR/ -name \*.meta >> metaList
 
-    - run: mkdir packageBuild
+   # - run: mkdir packageBuild
 
     - name: Build asset package
       uses: pCYSl5EDgo/create-unitypackage@master
