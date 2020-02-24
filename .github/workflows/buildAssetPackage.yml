@@ -23,11 +23,11 @@ jobs:
     - name: Build asset package
       uses: pCYSl5EDgo/create-unitypackage@master
       with:
-        package-path: packageBuild/${{ echo $ASSET_NAME }}.unitypackage
+        package-path: packageBuild/${{ env.ASSET_NAME }}.unitypackage
         include-files: metaList
 
     - name: Upload artifact
       uses: actions/upload-artifact@master
       with:
         path: packageBuild
-        name: ${{ ASSET_NAME }}_package
+        name: ${{ env.ASSET_NAME }}_package
