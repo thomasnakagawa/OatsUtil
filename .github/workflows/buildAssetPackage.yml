@@ -2,22 +2,32 @@ name: Create Unity Package
 
 on: push
 
+env:
+  ASSET_DIR: Assets/OatsUtil
+  ASSET_NAME: OatsUtil  
+
 jobs:
   echo:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - run: |
-        echo "Assets/OatsUtil.meta" > metaList
-        find ./Assets/OatsUtil/ -name \*.meta >> metaList
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      
+    - name: Make metalist
+      run: |
+        echo "$ASSET_DIR.meta" > metaList
+        find ./ASSET_DIR/ -name \*.meta >> metaList
 
-    - run: mkdir a
+    - run: mkdir packageBuild
 
-    - uses: pCYSl5EDgo/create-unitypackage@master
+    - name: Build asset package
+      uses: pCYSl5EDgo/create-unitypackage@master
       with:
-        package-path: 'a/oatsutil.unitypackage'
+        package-path: 'packageBuild/oatsutil.unitypackage'
         include-files: metaList
-    - uses: actions/upload-artifact@master
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@master
       with:
-        path: a
-        name: oatsutil_package.unitypackage
+        path: packageBuild
+        name: oatsutil_package
