@@ -8,7 +8,7 @@ on:
   push:
     branches: [master]
     paths:
-        - '${{ env.ASSET_DIR }}/**'
+        - ${{ env.ASSET_DIR }}/**
         - '.github/workflows/buildAssetPackage.yml'
 jobs:
   echo:
